@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,user-scalable=no" />
+<title>Document</title>
+<style type="text/css">
+body {
+	margin: 0;
+}
+body,
+html {
+	height: 100%;
+}
+#box {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}	
+#div  {
+	font-size: 20px;
+	padding-left: 30px;
+	line-height: 40px;
+}
+</style>
+<script type="text/javascript" src="m.Tween.js"></script>
+<script type="text/javascript">
+function start(){
+	var div = document.querySelector('#div');
+	var inner = "";
+	for(var i = 0; i < 100; i++){
+		inner += "这是第"+i+"行<br/>";
+	}
+	div.innerHTML = inner;
+}
+document.addEventListener('touchstart', function(e) {
+	e.preventDefault();
+});
+window.onload = function(){
+	start();
+	var box = document.querySelector('#box');
+	var div = document.querySelector('#div');
+	var startPoint = {x: 0, y: 0};
+	var startDeg = {x: 0, y: 0};
+	var last = {y:0};
+	var lastDis =  {y:0}
+	var lastTime = 0;
+	var lastTimeDis = 0;
+	box.addEventListener('touchstart', function(e) {
+		startPoint.y = e.changedTouches[0].pageY;
+		startDeg.y = css(div,"translateY");
+		last.y = startDeg.y;
+		lastDis.y = 0;
+		lastTimeDis = 0;
+		lastTime = new Date().getTime();
+	});
+	box.addEventListener('touchmove', function(e) {
+		var dis = {};
+		var nowTime = new Date().getTime();
+		dis.y = e.changedTouches[0].pageY - startPoint.y;
+		css(div,"translateY",startDeg.y + dis.y);
+		lastDis.y = (startDeg.y + dis.y) - last.y;//用这次的位置 - 上一次位移，得出 两次移动之间距离
+		last.y = startDeg.y + dis.y;
+		lastTimeDis = nowTime - lastTime;
+		lastTime = nowTime;
+	});
+	box.addEventListener('touchend', function(e) {
+		console.log(lastDis.y); //最后一次移动的距离
+		console.log(lastTimeDis); //最后一次移动所花费的时间
+		var speed =  lastDis.y / lastTimeDis;
+		var target = css(div,"translateY") + parseInt(speed * 300);
+		//console.log(target);
+		MTween({
+			el: div,
+			target: {translateY:target},
+			type: "easeOut",
+			time: Math.abs(parseInt(speed * 300))*1.2
+		});
+	});
+};
+</script>
+</head>
+<body>
+<div id="box">
+	<div id="div">
+	
+	</div>
+</div>
+</body>
+</html>

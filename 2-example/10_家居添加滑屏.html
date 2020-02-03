@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,user-scalable=no" />
+<title>Document</title>
+<style type="text/css">
+body {
+	margin: 0;
+}
+body,
+html {
+	height: 100%;
+}
+#box {
+	width: 100%;
+	height: 100%;
+	-webkit-perspective: 300px;
+	perspective: 300px;
+	overflow: hidden;
+}	
+#z {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+	/* -webkit-transform: translateZ(200px);
+	transform: translateZ(200px); */
+}
+#div  {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: -512px 0 0 -512px;
+	width: 1024px;
+	height: 1024px;
+	color: #fff;
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+	/* -webkit-transform: rotateY(0deg);
+	transform: rotateY(0deg); */
+}
+#div span {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+#div span:nth-of-type(1){
+	background: url(img/neg-x.png) no-repeat;
+	background-size: 100% 100%;
+	/* -webkit-transform: rotateY(0deg) translateZ(-512px);
+	transform: rotateY(0deg) translateZ(-512px); */
+}
+#div span:nth-of-type(2){
+	background: url(img/pos-z.png) no-repeat;
+	background-size: 100% 100%;
+	/* -webkit-transform: rotateY(-90deg) translateZ(-512px);
+	transform: rotateY(-90deg) translateZ(-512px); */
+}
+#div span:nth-of-type(3){
+	background: url(img/pos-x.png) no-repeat;
+	background-size: 100% 100%;
+	/* -webkit-transform: rotateY(-180deg) translateZ(-512px);
+	transform: rotateY(-180deg) translateZ(-512px); */
+}
+#div span:nth-of-type(4){
+	background: url(img/neg-z.png) no-repeat;
+	background-size: 100% 100%;
+	/* -webkit-transform: rotateY(-270deg) translateZ(-512px);
+	transform: rotateY(-270deg) translateZ(-512px); */
+}
+#div span:nth-of-type(5){
+	background: url(img/pos-y.png) no-repeat;
+	background-size: 100% 100%;
+	/* -webkit-transform: rotateX(-90deg) translateZ(-512px);
+	transform: rotateX(-90deg) translateZ(-512px); */
+}
+#div span:nth-of-type(6){
+	background: url(img/neg-y.png) no-repeat;
+	background-size: 100% 100%;/* 
+	-webkit-transform: rotateX(90deg) translateZ(-512px);
+	transform: rotateX(90deg) translateZ(-512px); */
+}
+</style>
+<script type="text/javascript" src="m.Tween.js"></script>
+<script type="text/javascript">
+function start(){
+	var zBox = document.querySelector('#z');
+	var div = document.querySelector('#div');
+	var spans = document.querySelectorAll('#div span');
+	css(zBox,"translateZ",300);
+	css(div,"rotateX", 0);
+	css(div,"rotateY", 0);
+	css(spans[4],"rotateX", -90);
+	css(spans[5],"rotateX", 90);
+	for(var i = 0; i < spans.length; i++){
+		if(i < 4){
+			css(spans[i],"rotateY", i*-90);
+		}
+		css(spans[i],"translateZ", -510);
+	}
+}
+document.addEventListener('touchstart', function(e) {
+	e.preventDefault();
+});
+window.onload = function(){
+	start();
+	var box = document.querySelector('#box');
+	var div = document.querySelector('#div');
+	var startPoint = {x: 0, y: 0};
+	var startDeg = {x: 0, y: 0};
+	box.addEventListener('touchstart', function(e) {
+		startPoint.x = e.changedTouches[0].pageX;
+		startPoint.y = e.changedTouches[0].pageY;
+		startDeg.x = css(div,"rotateY");
+		startDeg.y = css(div,"rotateX");
+	});
+	box.addEventListener('touchmove', function(e) {
+		var dis = {};
+		dis.x = e.changedTouches[0].pageX - startPoint.x;
+		dis.y = e.changedTouches[0].pageY - startPoint.y;
+		css(div,"rotateY",startDeg.x - dis.x);
+		css(div,"rotateX",startDeg.y + dis.y);
+	});
+};
+</script>
+</head>
+<body>
+<div id="box">
+	<div id="z">
+		<div id="div">
+			<span>前</span>
+			<span>右</span>
+			<span>后</span>
+			<span>左</span>
+			<span>上</span>
+			<span>下</span>
+		</div>
+	</div>
+</div>
+</body>
+</html>

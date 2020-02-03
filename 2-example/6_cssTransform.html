@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,user-scalable=no" />
+<title>Document</title>
+<style type="text/css">
+#box {
+	width: 100px;
+	height: 100px;
+	border: 1px solid #000;
+	margin: 30px auto;
+	-webkit-perspective: 300px;
+	perspective: 300px;
+	padding: 100px;
+} 
+#div {
+	width: 100px;
+	height: 100px;
+	background: red;
+	transition: .2s;
+}
+</style>
+<script type="text/javascript" src="m.Tween.js"></script>
+<script type="text/javascript">
+/* 
+在js中没有办法 通过计算后样式 获取到 transform中的相关操作，只能获取到矩阵
+
+关于 transform的所有操作，我们都通过cssTransform来进行操作，
+然后在 cssTransform 中来记录 对transform的每一步操作，获取的时候，就获取 cssTransform中的记录
+
+ */
+function cssTransform(el, attr, val) {
+	if(!el.transform){
+		el.transform = {}
+	}
+	if(typeof val == "undefined"){
+		if(typeof el.transform[attr] == "undefined"){
+			switch(attr) {
+				case "scale":
+				case "scaleX":
+				case "scaleY":
+					el.transform[attr] = 100;
+					break;
+				default:
+					el.transform[attr] = 0;	
+			}
+		}
+		return el.transform[attr];
+	} else {
+		var transformVal = "";
+		el.transform[attr] = Number(val);
+		for(var s in el.transform){
+			switch(s){
+				case "rotate":
+				case "rotateX":
+				case "rotateY":
+				case "rotateZ":
+				case "skewX":
+				case "skewY":
+					transformVal += " "+s+"("+el.transform[s]+"deg)";
+					break;
+				case "translateX":
+				case "translateY":
+				case "translateZ":
+					transformVal += " "+s+"("+el.transform[s]+"px)";
+					break;
+				case "scale":
+				case "scaleX":
+				case "scaleY":
+					transformVal += " "+s+"("+el.transform[s]/100+")";
+					break;
+			}
+		}
+		el.style.WebkitTransform = el.style.transform = transformVal;
+	}
+}
+window.onload = function(){
+	var div = document.querySelector('#div');
+	div.addEventListener('touchend', function(e) {
+		var scale = cssTransform(this,"scale");
+		console.log(scale);
+		cssTransform(this,"scale",scale - 10);
+	});
+};
+</script>
+</head>
+<body>
+<div id="box">
+	<div id="div"></div>
+</div>	
+</body>
+</html>

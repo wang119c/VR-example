@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<style type="text/css">
+	#div {
+		width: 100px;
+		height: 100px;
+		background: red;
+	}
+</style>
+<script type="text/javascript" src="m.Tween.js"></script>
+<script type="text/javascript">
+window.onload = function(){
+	var div = document.querySelector('#div');
+	document.onclick = function(){
+		MTween({
+			el: div,
+			target: {
+				width: 400,
+				height: 300,
+				opacity: 50
+			},
+			time: 1000,
+			type: "backOut",
+			callBack: function(){
+				console.log("动画执行完了");
+			},
+			callIn: function(){
+				console.log("动画执行中");
+			}
+		});
+	};
+	/*
+		必写参数：
+			el 元素 
+			target {} 目标点
+			time: 动画持续时间 (ms)	
+			type: 动画类型 "string"
+		可选参数:
+			callBack: fn 回调函数(动画执行完之后，执行的函数)
+			callIn: fn 	并发函数 (动画执行完中,执行的函数)
+	*/
+};
+</script>
+</head>
+<body>
+<div id="div"></div>	
+</body>
+</html>
