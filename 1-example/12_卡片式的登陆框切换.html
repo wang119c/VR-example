@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width,user-scalable=no" />
+<meta charset="UTF-8">
+<title>Document</title>
+<style type="text/css">
+body {
+	margin: 0;
+}
+body,
+html {
+	height: 100%;
+	overflow: hidden;
+	position: relative;
+}
+#wrap {
+	height: 100%;
+	-webkit-perspective: 320px;
+	perspective: 320px;
+	background: url(bg.jpg) center center no-repeat #c10b3c;
+	background-size: 100% auto;
+}
+#box {
+	width: 200px;
+	height: 100px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: -60px 0 0 -100px;
+	-webkit-transform: rotateY(0deg);
+	transform: rotateY(0deg);
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+	transition: 3s;
+}
+#box div {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 198px;
+	height: 98px;
+	border: 1px solid #fff;
+	background: rgba(255, 255, 255, .3);
+	font-size: 30px;
+	text-align: center;
+	line-height: 98px;
+	color: #000;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+#box div:nth-of-type(1){
+	-webkit-transform: rotateY(0deg);
+	transform: rotateY(0deg);
+}
+#box div:nth-of-type(2){
+	-webkit-transform: rotateY(180deg);
+	transform: rotateY(180deg);
+}
+</style>
+<script type="text/javascript">
+window.onload = function(){
+	var box = document.querySelector('#box');
+	var div = document.querySelectorAll('#box div');
+	div[0].addEventListener('touchend', function(e) {
+		box.style.WebkitTransform = box.style.transform = "rotateY(180deg)";
+	});
+	div[1].addEventListener('touchend', function(e) {
+		box.style.WebkitTransform = box.style.transform = "rotateY(0deg)";
+	});
+};
+</script>
+</head>
+<body>
+<div id="wrap">
+	<div id="box">
+		<div>正面</div>
+		<div>背面</div>
+	</div>
+</div>
+</body>
+</html>

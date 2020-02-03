@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,user-scalable=no" />
+<title>Document</title>
+<style type="text/css">
+body {
+	margin: 0;
+}
+body,
+html {
+	height: 100%;
+}
+#box {
+	width: 100%;
+	height: 100%;
+	border: 1px solid #000;
+	-webkit-perspective: 300px;
+	perspective: 300px;
+	overflow: hidden;
+}	
+#z {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+	-webkit-transform: translateZ(200px);
+	transform: translateZ(200px);
+}
+#div  {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: -512px 0 0 -512px;
+	width: 1024px;
+	height: 1024px;
+	color: #fff;
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+	transition: 20s;
+	-webkit-transform: rotateY(0deg);
+	transform: rotateY(0deg);
+}
+#div span {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	transition: 5s;
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+#div span:nth-of-type(1){
+	background: url(img/neg-x.png) no-repeat;
+	background-size: 100% 100%;
+	-webkit-transform: rotateY(0deg) translateZ(-512px);
+	transform: rotateY(0deg) translateZ(-512px);
+}
+#div span:nth-of-type(2){
+	background: url(img/pos-z.png) no-repeat;
+	background-size: 100% 100%;
+	-webkit-transform: rotateY(-90deg) translateZ(-512px);
+	transform: rotateY(-90deg) translateZ(-512px);
+}
+#div span:nth-of-type(3){
+	background: url(img/pos-x.png) no-repeat;
+	background-size: 100% 100%;
+	-webkit-transform: rotateY(-180deg) translateZ(-512px);
+	transform: rotateY(-180deg) translateZ(-512px);
+}
+#div span:nth-of-type(4){
+	background: url(img/neg-z.png) no-repeat;
+	background-size: 100% 100%;
+	-webkit-transform: rotateY(-270deg) translateZ(-512px);
+	transform: rotateY(-270deg) translateZ(-512px);
+}
+#div span:nth-of-type(5){
+	background: url(img/pos-y.png) no-repeat;
+	background-size: 100% 100%;
+	-webkit-transform: rotateX(-90deg) translateZ(-512px);
+	transform: rotateX(-90deg) translateZ(-512px);
+}
+#div span:nth-of-type(6){
+	background: url(img/neg-y.png) no-repeat;
+	background-size: 100% 100%;
+	-webkit-transform: rotateX(90deg) translateZ(-512px);
+	transform: rotateX(90deg) translateZ(-512px);
+}
+/*
+transform-origin 变换原点 center center;
+	关键字: top bottom center left right;
+	具体的长度单位(em,rem,px...)
+
+会受到原点影响的变换有：rotate、skew、scale	
+
+隐藏背面:  什么是背面;
+背面即和父级角度相对的面
+
+*/
+</style>
+<script type="text/javascript">
+window.onload = function(){
+	var div = document.querySelector('#div');
+	div.style.WebkitTransform = div.style.transform = "rotateY(360deg)";
+};
+</script>
+</head>
+<body>
+<div id="box">
+	<div id="z">
+		<div id="div">
+			<span>前</span>
+			<span>右</span>
+			<span>后</span>
+			<span>左</span>
+			<span>上</span>
+			<span>下</span>
+		</div>
+	</div>
+</div>
+</body>
+</html>

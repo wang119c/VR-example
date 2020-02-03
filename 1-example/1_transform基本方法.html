@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,user-scalable=no" />
+<title>Document</title>
+<style type="text/css">
+#box {
+	width: 100px;
+	height: 100px;
+	border: 1px solid #000;
+	padding: 50px;
+	-webkit-perspective: 100px;
+	perspective: 100px;
+}	
+#div  {
+	width: 100px;
+	height: 100px;
+	background: red;
+	transition: 2s;
+}
+/*
+rotate 旋转 deg
+	rotateX/rotateY/rotateZ
+
+skew 斜切 deg
+	skewX/skewY	 
+	正值 拉 左上角 和 右下角
+	负值 拉 右上角 和 左下角
+
+scale 缩放 (原始大小的多少倍)
+	scaleX/scaleY
+
+rotate、skew、scale默认都是围绕着元素的中心点进行变化的
+
+
+translate
+	translateX/translateY/translateZ
+
+	translateZ 前后移动 负值向后移动 正值 向前移动
+
+perspective 景深		
+*/
+</style>
+<script type="text/javascript">
+window.onload = function(){
+	var div  = document.querySelector('#div');
+	div.addEventListener('touchend', function(e) {
+		this.style.WebkitTransform = this.style.transform = "translateZ(50px)";
+	});
+};
+</script>
+</head>
+<body>
+	<div id="box">
+		<div id="div"></div>
+	</div>
+</body>
+</html>

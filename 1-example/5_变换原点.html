@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,user-scalable=no" />
+<title>Document</title>
+<style type="text/css">
+#box {
+	width: 100px;
+	height: 100px;
+	border: 1px solid #000;
+	padding: 100px;
+	-webkit-perspective: 100px;
+	perspective: 100px;
+	margin: auto;
+}	
+#div  {
+	width: 100px;
+	height: 100px;
+	background: red;
+	transition: 2s;
+	color: #fff;
+	font-size: 100px;
+	/* -webkit-transform-origin: -50px center;
+	transform-origin: -50px center; */
+}
+/*
+transform-origin 变换原点 center center;
+	关键字: top bottom center left right;
+	具体的长度单位(em,rem,px...)
+
+会受到原点影响的变换有：rotate、skew、scale
+
+translate 移动不会改变原点的位置	
+
+*/
+</style>
+<script type="text/javascript">
+window.onload = function(){
+	var div  = document.querySelector('#div');
+	div.addEventListener('touchend', function(e) {
+		this.style.WebkitTransform = this.style.transform = " translateX(100px) rotateZ(180deg)";
+	});
+};
+</script>
+</head>
+<body>
+	<div id="box">
+		<div id="div">上</div>
+	</div>
+</body>
+</html>
