@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<style type="text/css">
+@keyframes rotateY {
+	0%{
+		transform: rotateY(0deg);
+	}
+	100%{
+		transform: rotateY(360deg);
+	}
+}
+@-webkit-keyframes rotateY {
+	0%{
+		-webkit-transform: rotateY(0deg);
+	}
+	100%{
+		-webkit-transform: rotateY(360deg);
+	}
+}
+#view {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	-webkit-perspective: 400px;
+	perspective: 400px;
+}
+#box {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+	-webkit-animation: 3s rotateY linear infinite;
+	animation: 3s rotateY linear infinite;
+}
+#box div {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: -100px 0 0 -50px;
+	width: 100px;
+	height: 200px;
+	font-size: 50px;
+	text-align: center;
+	line-height: 200px;
+	color: #fff;
+}
+#box div:nth-of-type(2n) {
+	background: red;
+}
+#box div:nth-of-type(2n-1) {
+	background: green;
+}
+</style>
+<script type="text/javascript" src="js/m.Tween.js"></script>
+<script type="text/javascript">
+window.onload = function(){
+	var div = document.querySelectorAll('#box div');
+	var deg = 360 / div.length; //求的是外角
+	var width = div[0].offsetWidth;
+	var R = Math.tan((180-deg)/2*Math.PI/180)*(width/2);
+	// (180-deg)/2 换算成夹角
+	for(var i = 0; i < div.length; i++){
+		var divDeg = i * deg;
+		css(div[i],"rotateY",divDeg);
+		css(div[i],"translateZ",R);
+	}
+};
+</script>
+</head>
+<body>
+<div id="view">
+	<div id="box">
+		<div>1</div>
+		<div>2</div>
+		<div>3</div>
+		<div>4</div>
+		<div>5</div>
+		<div>6</div>
+		<div>7</div>
+		<div>8</div>
+	</div>
+</div>		
+</body>
+</html>

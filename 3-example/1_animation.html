@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,user-scalable=no" />
+<title>Document</title>
+<style type="text/css">
+@keyframes rotate {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);	
+	}
+}
+@-webkit-keyframes rotate {
+	0% {
+		-webkit-transform: rotate(0deg);
+	}
+	100% {
+		-webkit-transform: rotate(360deg);	
+	}
+}
+#box {
+	margin: 50px auto;
+	width: 100px;
+	height: 100px;
+	background: red;
+	-webkit-animation: 3s rotate infinite linear;
+	animation: 3s rotate infinite linear;
+} 
+</style>
+</head>
+<body>
+<div id="box"></div>
+</body>
+</html>
