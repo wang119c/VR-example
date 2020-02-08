@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width,user-scalable=no" />
+<meta charset="UTF-8">
+<title>Document</title>
+<script type="text/javascript">
+document.addEventListener('touchstart', function(e) {
+	e.preventDefault();
+});
+window.onload = function(){
+	var wrap = document.querySelector('.wrap');
+	var Z = document.querySelector('.translateZ');
+	var ball = document.querySelector('.ball');
+	var imgs = ball.children;
+	var rows =[1,4,10,12,10,4,1];
+	var ballInner = "";
+	var now = 0;
+	var end = 0;
+	var degY = 90/Math.floor(rows.length/2);
+	var R = Math.round(100*Math.tan((180-degY)/2*Math.PI/180))+100;
+	var length = 0;
+	wrap.style.WebkitPerspective = wrap.style.perspective = 4*R+"px";
+	for(var i = 0; i < rows.length; i++){
+		length += rows[i];
+	}
+	for(var i = 1; i <= length; i++){
+		ballInner += '<img src="pics/'+i+'.jpg"/>';
+	}
+	ball.innerHTML = ballInner;
+	for(var i = 0; i < rows.length; i++){
+		end = rows[i];
+		var x = 0;
+		var degX = 360/rows[i];
+		for(var j = 0; j < rows[i]; j++){
+			var y = (i - Math.floor(rows.length/2))*degY;
+			var x = j * degX;
+			//console.log(x);
+			var translateZ = Math.round(Math.cos(y*Math.PI/180)*100)*R/100;
+			var translateY = Math.round(Math.sin(y*Math.PI/180)*100)*R/100;
+			imgs[now].style.WebkitTransform = imgs[now].style.transform = ' rotateY('+(x)+'deg) translate3d('+0+'px, '+translateY+'px, '+(-translateZ)+'px) rotateX('+(y)+'deg)';
+			now++;
+		}
+	}
+};
+</script>
+<style type="text/css">
+.wrap {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	-webkit-perspective: 1200px;
+	perspective: 1200px;
+	overflow: hidden;
+	background: #000;
+}
+.translateZ {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+}
+.ball {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+}
+.ball img {
+	position: absolute;
+	left: 0;
+	top: 0;
+	margin: -100px 0 0 -100px;
+	width: 200px;
+	height: 200px;
+	box-sizing: border-box;
+	border: 2px solid #ccc;
+	box-shadow: 0 0 5px #fff;
+/* 	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden; */
+}
+</style>
+</head>
+<body>
+<section class="wrap">
+	<div class="translateZ">
+		<div class="ball">
+			
+		</div>
+	</div>
+</section>
+</body>
+</html>

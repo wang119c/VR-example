@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<meta name="viewport" content="width=device-width,user-scalable=no" />
+<style type="text/css">
+body {
+	margin: 0;
+}	
+body,
+html {
+	height: 100%;
+	overflow: hidden;
+}
+.wrap {
+	height: 100%;
+	position: relative;
+}
+.view {
+	position: absolute;
+	top: 0;
+	width: 50%;
+	height: 100%;
+	overflow: hidden;
+}
+.view:nth-of-type(1){
+	left: 0;
+	-webkit-perspective-origin: 80% center;
+	perspective-origin: 80% center;
+}
+.view:nth-of-type(2){
+	right: 0;
+	-webkit-perspective-origin: 20% center;
+	perspective-origin: 20% center;
+}
+.view2,
+.viewDisZ,
+.ball {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+}
+.ball span {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: -100px 0 0 -100px;
+	width: 200px;
+	height: 200px;
+}
+</style>
+<script type="text/javascript" src="js/m.Tween.js"></script>
+<script type="text/javascript">
+window.onload = function(){
+	var view = document.querySelectorAll('.view');
+	var view2 = document.querySelectorAll('.view2');
+	var viewDisZ = document.querySelectorAll('.viewDisZ');
+	var ball = document.querySelectorAll('.ball');
+	console.log(ball.length);
+	setView(view[0],view2[0],viewDisZ[0]);
+	setView(view[1],view2[1],viewDisZ[1]);
+	createBall(ball[0]);
+	createBall(ball[1]);
+	// rotate(ball[0]);
+	// rotate(ball[1]);
+	function rotate(ball){
+		var deg = css(ball,"rotateX") + 360;
+		MTween({
+			el:ball,
+			target: {
+				rotateX:deg,
+			},
+			type:"linear",
+			time: 10000,
+			callBack: function(){
+				rotate(ball);
+			}
+		});
+	}
+};
+function createBall(ball){
+	var ballData = [1,4,10,12,10,4,1];
+	var spanW = 200;
+	var length = 12;
+	var deg = 360/length;
+	var R = Math.tan((180-deg)/2*Math.PI/180)*spanW/2 + 100;
+	var nub = 0;
+	for(var i = 0; i < ballData.length; i++){
+		for(var j = 0; j < ballData[i]; j++){
+			var span = document.createElement("span");
+			var degY = 360/ballData[i];
+			span.style.background = "url(pics/"+(nub+1)+".jpg)";
+			css(span,"rotateY",j*degY);
+			css(span,"rotateX",i*deg - 90);
+			css(span,"translateZ",R);
+			ball.appendChild(span);
+			nub++;
+		}
+	}
+}
+function setView(view,view2,viewDisZ){
+	setSize();
+	//alert("orientation" in window);
+	window.addEventListener("orientation" in window?'orientationchange':"resize", setSize);
+	function setSize(){
+		var deg = 60;
+		var height = view.clientHeight;
+		var R = Math.round(Math.tan(deg*Math.PI/180)*height/2);
+		view.style.perspective = view.style.WebkitPerspective = R + "px";
+		css(view2,"translateZ",R);
+		css(viewDisZ,"translateZ",-2000);
+	}
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+	<div class="view">
+		<div class="view2">
+			<div class="viewDisZ">
+				<div class="ball"></div>
+			</div>
+		</div>
+	</div>
+	<div class="view">
+		<div class="view2">
+			<div class="viewDisZ">
+				<div class="ball"></div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

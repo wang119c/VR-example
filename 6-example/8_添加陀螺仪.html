@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<meta name="viewport" content="width=device-width,user-scalable=no" />
+<style type="text/css">
+body {
+	margin: 0;
+}	
+body,
+html {
+	height: 100%;
+	overflow: hidden;
+}
+.wrap {
+	height: 100%;
+	position: relative;
+}
+.view {
+	position: absolute;
+	top: 0;
+	width: 50%;
+	height: 100%;
+	overflow: hidden;
+}
+.view:nth-of-type(1){
+	left: 0;
+	-webkit-perspective-origin: 80% center;
+	perspective-origin: 80% center;
+}
+.view:nth-of-type(2){
+	right: 0;
+	-webkit-perspective-origin: 20% center;
+	perspective-origin: 20% center;
+}
+.view2,
+.viewDisZ,
+.ball {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+}
+.ball span {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: -100px 0 0 -100px;
+	width: 200px;
+	height: 200px;
+}
+</style>
+<script type="text/javascript" src="js/m.Tween.js"></script>
+<script type="text/javascript">
+window.onload = function(){
+	var view = document.querySelectorAll('.view');
+	var view2 = document.querySelectorAll('.view2');
+	var viewDisZ = document.querySelectorAll('.viewDisZ');
+	var ball = document.querySelectorAll('.ball');
+	setView(view[0],view2[0],viewDisZ[0]);
+	setView(view[1],view2[1],viewDisZ[1]);
+	createBall(ball[0]);
+	createBall(ball[1]);
+	setSensors();
+};
+function setSensors(){
+	var ball = document.querySelectorAll('.ball');
+	var dir = window.orientation;
+	// var lastX = 0;
+	// var lasty = 0;
+	window.addEventListener('orientationchange', function(e) {
+		 dir = window.orientation;
+	});
+	window.addEventListener('deviceorientation', function(e){
+		var beta = Math.round(e.beta);
+		var gamma = Math.round(e.gamma);
+		var alpha = Math.round(e.alpha);
+		switch(dir){
+			case 0:
+				var x = beta;
+				var y = gamma + alpha;
+				break;
+			case 90:
+				var x = gamma;
+				var y = beta + alpha;
+				break;	
+			case -90:
+				var x = -gamma;
+				var y = -(beta + alpha);
+				break;	
+			case 180:
+				var x = -beta;
+				var y = -(gamma + alpha);
+				break;
+			default:
+				var x = beta;
+				var y = gamma + alpha;	
+		}
+		
+
+
+		y = y%360;
+		y = y < 0 ? y+360:y;
+		if(x < -50){
+			x = -50;
+		} else if(x > 50){
+			x = 50;
+		}
+		//if(x - lastX > 1||y - lastY > 1){
+			css(ball[0],"rotateX",x);
+			css(ball[0],"rotateY",y);
+			css(ball[1],"rotateX",x);
+			css(ball[1],"rotateY",y);
+			//lastX = x;
+			//lastY = y;
+		//}
+	});
+}
+function createBall(ball){
+	var ballData = [1,4,10,12,10,4,1];
+	var spanW = 200;
+	var length = 12;
+	var deg = 360/length;
+	var R = Math.tan((180-deg)/2*Math.PI/180)*spanW/2 + 100;
+	var nub = 0;
+	for(var i = 0; i < ballData.length; i++){
+		for(var j = 0; j < ballData[i]; j++){
+			var span = document.createElement("span");
+			var degY = 360/ballData[i];
+			span.style.background = "url(pics/"+(nub+1)+".jpg)";
+			css(span,"rotateY",j*degY);
+			css(span,"rotateX",i*deg - 90);
+			css(span,"translateZ",R);
+			ball.appendChild(span);
+			nub++;
+		}
+	}
+}
+function setView(view,view2,viewDisZ){
+	setSize();
+	window.addEventListener("orientation" in window?'orientationchange':"resize", setSize);
+	function setSize(){
+		var deg = 60;
+		var height = view.clientHeight;
+		var R = Math.round(Math.tan(deg*Math.PI/180)*height/2);
+		view.style.perspective = view.style.WebkitPerspective = R + "px";
+		css(view2,"translateZ",R);
+		css(viewDisZ,"translateZ",-2000);
+	}
+}
+</script>
+</head>
+<body>
+<div class="wrap">
+	<div class="view">
+		<div class="view2">
+			<div class="viewDisZ">
+				<div class="ball"></div>
+			</div>
+		</div>
+	</div>
+	<div class="view">
+		<div class="view2">
+			<div class="viewDisZ">
+				<div class="ball"></div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

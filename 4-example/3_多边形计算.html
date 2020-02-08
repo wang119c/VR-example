@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<style type="text/css">
+#box {
+	position: relative;
+	width: 10px;
+	height: 10px;
+	margin: 200px auto;
+	background: blue;
+}
+#box div {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: -1px 0 0 -50px;
+	width: 100px;
+	height: 2px;
+	background: red;
+}
+#box div:nth-of-type(1) {
+	transform: rotate(0deg) translateY(87px);
+}
+#box div:nth-of-type(2) {
+	transform: rotate(60deg) translateY(87px);
+}
+#box div:nth-of-type(3) {
+	transform: rotate(120deg) translateY(87px);
+}
+#box div:nth-of-type(4) {
+	transform: rotate(180deg) translateY(87px);
+}
+#box div:nth-of-type(5) {
+	transform: rotate(240deg) translateY(87px);
+}
+#box div:nth-of-type(6) {
+	transform: rotate(300deg) translateY(87px);
+}
+/*
+	正N边形外角和 = 360
+	正N边形外角 = 360/n
+	正N边形内角 = 180 - 360/n
+
+	正弦 Math.sin() 直角三角形中 对边和斜边的比值
+	余弦 Math.cos() 直角三角形中 临边和斜边的比值 
+	正切 Math.tan() 直角三角形中 对边和临边的比值 
+
+	已知角度，和临边 求对边
+	Math.tan(弧度)*临边 = 对边
+
+	弧度 = 角度*Math.PI/180;
+
+	对边 = Math.tan(角度*Math.PI/180)*临边 	
+*/
+</style>
+<script type="text/javascript">
+	//console.log(Math.tan(60*Math.PI/180)*50); 87
+</script>
+</head>
+<body>
+<div id="box">
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+</div>	
+</body>
+</html>
